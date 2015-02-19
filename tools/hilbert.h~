@@ -1,0 +1,34 @@
+#include <gmp.h>
+#include <math.h>
+#include <complex.h>
+#include "deltaprecision.h"
+#include "complex_polynomial.h"
+#include "polynomial.h"
+
+#ifndef HILBERT_H
+#define HILBERT_H
+ 
+#define SET_SIZE 1000
+
+struct abc{
+	mpz_t a; 
+	mpz_t b;
+	mpf_t c;
+};
+
+typedef struct hilbert_result{
+	mpz_t number_class;				//Numero di class h(D)
+	f_polynomial Hpoly;				//Polinomio di classe Hilbert, con grado h(D)
+	struct abc abc_set[SET_SIZE];	//Insieme di triple (a,b,c)
+	int count;						//Numero di elementi nell'insieme
+} Hresult;
+
+/*Dato un discriminante D(negativo), questa funzione ritorna
+ *una combinazione di:
+ * -numero di classe h(D)
+ * -il polinomio di classe Hilbert, con grado h(D)
+ * -l'insieme delle forme ridotte (a,b,c) del discriminante D
+*/
+void hilbertclass(Hresult* res, mpz_t D, mpz_t n);
+
+#endif

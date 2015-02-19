@@ -1,0 +1,28 @@
+/*	DOMANDE 
+	1) E' normale che il risultato sia sempre intero ?
+*/
+
+#include <complex.h>	//Utilizza il simobolo I per indicare la parte img
+#include <math.h>		//M_PI è il pi-greco
+#include <stdio.h>
+#include <stdlib.h>
+#include <gmp.h>
+#include "complessi.h"
+
+#ifndef DELTAPRECISION_H
+#define DELTAPRECISION_H
+
+
+#define LAPNUMBER 5
+
+//La funzione calcola il fattoriale di un numero con GMP
+void mpf_factorial(mpf_t res, mpf_t n);
+
+//La funzione è un implementazione del Teorema Binomiale che 
+//esprime lo sviluppo della potenza n-esima di un binomio 
+void powbin(struct complex_f* result, struct complex_f c, unsigned long n);
+
+//Inserire descrizione
+void deltaprecision(complex_f* result, complex_f c);
+
+#endif

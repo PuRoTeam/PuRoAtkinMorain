@@ -1,0 +1,79 @@
+#include <assert.h>
+#include "complessi.h"
+#include "utility.h"
+#include "hashmap.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+#ifndef POLYNOMIAL_H
+#define POLYNOMIAL_H
+
+#define FAST_MUL_ADD 1 //se 1 uso fast_mul e fast add [SCONSIGLIATO] - se 0 uso uso add e mul [CONSIGLIATO]
+
+typedef struct real_big_polynomial //chiamare init_polynomial per usarla correttamente
+{
+	mpz_t* coefficients;
+	mpz_t* degrees;
+	int num_elements;
+}r_big_polynomial;
+
+typedef struct root_set
+{
+	mpz_t* roots; //da inizializzare!!!
+	int num_elements;	
+}s_root_set;
+
+void init_real_big_polynomial(mpz_t* coef, int c_size, mpz_t* deg, int d_size, r_big_polynomial* poly, mpz_t n);
+void init_real_big_polynomial_no_mod(mpz_t* coef, int c_size, mpz_t* deg, int d_size, r_big_polynomial* poly);
+void r_big_polynomial_printf(r_big_polynomial* poly);
+void r_big_polynomial_copy(r_big_polynomial* poly_A, r_big_polynomial poly_B);
+void r_big_polynomial_clear(r_big_polynomial* poly);
+int r_big_polynomial_is_equal(r_big_polynomial* poly_A, r_big_polynomial* poly_B);
+
+void r_big_polynomial_simple_mul(r_big_polynomial* poly_mul, r_big_polynomial poly_A, r_big_polynomial poly_B, mpz_t p);
+void r_big_polynomial_simple_add(r_big_polynomial* poly_add, r_big_polynomial poly_A, r_big_polynomial poly_B, mpz_t p);
+
+//hash table
+//void r_big_polynomial_new_add(r_big_polynomial* poly_add, r_big_polynomial poly_A, r_big_polynomial poly_B, mpz_t p);
+//void r_big_polynomial_new_mul(r_big_polynomial* poly_mul, r_big_polynomial poly_A, r_big_polynomial poly_B, mpz_t p);
+
+//void r_big_polynomial_mul(r_big_polynomial* poly_mul, r_big_polynomial poly_A, r_big_polynomial poly_B, mpz_t p);
+//void r_big_polynomial_add(r_big_polynomial* poly_add, r_big_polynomial poly_A, r_big_polynomial poly_B, mpz_t p);
+void r_big_polynomial_iterative_pow(r_big_polynomial* poly, mpz_t exp, mpz_t p);
+//Algorithm 2.1.5 (Recursive powering algorithm) - pdf. 100
+void r_big_polynomial_pow(r_big_polynomial* poly, mpz_t exp, mpz_t p);
+void r_big_polynomial_degrade(r_big_polynomial* poly, mpz_t degree);
+void r_big_polynomial_negative(r_big_polynomial* poly, mpz_t p);
+
+//Algorithm 9.6.1 (Fast polynomial multiplication: Binary segmentation) - pdf.519
+void r_big_polynomial_fast_add(r_big_polynomial* poly_add, r_big_polynomial poly_A, r_big_polynomial poly_B, mpz_t p);
+void r_big_polynomial_fast_mul(r_big_polynomial* poly_mul, r_big_polynomial poly_A, r_big_polynomial poly_B, mpz_t p);
+
+//Algorithm 2.2.1 (gcd for polynomials) - pdf.104
+void r_big_polynomial_gcd(r_big_polynomial* poly_gcd, r_big_polynomial poly_A, r_big_polynomial poly_B, mpz_t p);
+
+void r_big_polynomial_fast_mod(r_big_polynomial* poly_rem, r_big_polynomial* poly_quoz, r_big_polynomial poly_A, r_big_polynomial poly_B, mpz_t p);
+
+void r_big_polynomial_reversal(r_big_polynomial* poly, mpz_t degree);
+void r_big_polynomial_index(mpz_t out_degree, r_big_polynomial poly, mpz_t in_degree);
+void r_big_polynomial_fast_inversion(r_big_polynomial* poly_trunc_recip, r_big_polynomial poly_x, mpz_t degree, mpz_t p);
+void r_big_polynomial_truncate(r_big_polynomial* poly, mpz_t degree);
+
+void quicksort_bottom_up(mpz_t* deg, int low, int high);
+void quicksort_deg_coef_bottom_up(mpz_t deg[], mpz_t coef[], int low, int high);
+
+//Algorithm 2.3.10 (Roots of a polynomial over Fp) - pdf.117
+void roots(s_root_set* root_set, r_big_polynomial poly, mpz_t p);
+void roots_recursive(s_root_set* root_set, unsigned long int* count, r_big_polynomial poly_gx, mpz_t p);
+
+//trova una radice di un polinomio, testando tutti gli elementi del campo (molto lento) - evita di calcolare fattore zero
+void find_one_root(mpz_t root, r_big_polynomial poly, mpz_t p);
+
+//trova tutti i divisori di un numero i cui fattori primi sono contenuti in primeDivisors con relativa moltiplecità in multiplicity
+//currentResult deve essere passato inizialmente con valore pari ad 1, currentDivisor con valore pari a 0
+void findDivisors(mpz_t* primeDivisors, int* multiplicity, int size, int currentDivisor, mpz_t currentResult);
+
+int findOneRootInDivisors(mpz_t one_root, r_big_polynomial poly, mpz_t p, mpz_t* primeDivisors, int* multiplicity, int size, int currentDivisor, mpz_t currentResult);
+
+#endif

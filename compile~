@@ -1,0 +1,11 @@
+#!/bin/bash
+cd tools
+gcc -Wall -c deltaprecision.c
+gcc -Wall -c complessi.c
+gcc -Wall -c polynomial.c
+gcc -Wall -c complex_polynomial.c
+gcc -Wall -c atkin.c
+cd ..
+gcc -Wall -c main.c
+gcc -Wall -g -o main main.o tools/polynomial.o tools/complex_polynomial.o tools/complessi.o tools/deltaprecision.o tools/atkin.o -lm -lgmp
+

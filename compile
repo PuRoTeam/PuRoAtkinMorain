@@ -1,0 +1,16 @@
+#!/bin/bash
+cd tools
+gcc -Wall -g -c deltaprecision.c
+gcc -Wall -g -c complessi.c
+gcc -Wall -g -c polynomial.c
+gcc -Wall -g -c complex_polynomial.c
+gcc -Wall -g -c atkin.c
+gcc -Wall -g -c hilbert.c
+gcc -Wall -g -c utility.c
+gcc -Wall -g -c trigonometry.c
+gcc -Wall -g -c elliptic_curve.c
+gcc -Wall -g -c factorize.c
+cd ..
+gcc -Wall -g -c  main.c
+gcc -Wall -g -o  main main.o tools/deltaprecision.o tools/complessi.o tools/polynomial.o tools/complex_polynomial.o tools/atkin.o tools/hilbert.o tools/utility.o tools/trigonometry.o tools/elliptic_curve.o tools/factorize.o -lm -lgmp 
+
